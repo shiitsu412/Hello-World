@@ -1,9 +1,9 @@
 h1,h2{
-    font-family:"Oswald";}
+    font-family:'Oswald',sans;}
 
 body{
     color:darkblue;
-    font-family: "open sans";
+    font-family: 'Open sans',sans;
     width:950px;
     margin-top:10px;
     margin-bottom:10px;
