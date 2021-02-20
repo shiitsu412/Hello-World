@@ -2,13 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Smart Phone Store</title>
+    <link href="https://fonts.googleapis.com/css?family=Cherry+Swash|Raleway" rel="stylesheet">
     <link rel="stylesheet" href="products_style.css">
+    <style id='localStyle'></style> 
+    
 </head>
 <body>
-    <h1>Used Smart Phone Store</h1>
-    <div><main>
+    <header>
+        <h1>Port's Used Smart Phone Store</h1>
+    </header>
+
+    <div>
+        <aside>
+            <div style="font-size:4rem;text-align:center;font-weight: bold;font-style: italic; color: white">
+                We sell from
+                around the globe!
+            </div>
+            <div>
+            <input id="speedSlider" type="range" min=".1" max="5" step=".1" onchange="
+            localStyle.innerHTML = '.rotate img {animation-duration: ' + speedSlider.value + 's;}';
+            " style="direction: rtl;" />
+            </div>
+        </aside>
+    <main>
     <section class="item" id="HTC" onmouseover="this.className ='item rotate';" onclick="this.className='item'">
         <h2>HTC</h2>
         <p>price: &dollar;40.00,</p>
@@ -35,7 +52,8 @@
         <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Blackberry.jpg">
     </section>
 </main></div>
-<H1>Your One Stop Phone Shop</H1>
-
+<footer>
+    <H1>Your One Stop Phone Shop</H1>
+    </footer>    
 </body>
 </html>
