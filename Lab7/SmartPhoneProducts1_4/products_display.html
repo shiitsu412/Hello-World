@@ -19,9 +19,7 @@
 <body>
 
     <header>
-        <h1>
-            Used Smart Phone Store
-        </h1>
+       
         
 
     <h1>
@@ -34,7 +32,9 @@
                         );
         </script>
         </span>
-       
+        <h1>
+            Used Smart Phone Store
+        </h1>
     </center>
     </h1>
 
@@ -66,16 +66,33 @@
             onmouseover="
                 spins_span.innerHTML = ++spins;
                 this.className ='item rotate';
+
+                // -- Winning progress depends on hits/spins
+                hits_spins_ratio = hits/spins;
+                if ( hits_spins_ratio > 0 && hits_spins_ratio < 0.25 && hits_spins_ratio < 0.5) {
+                    progress = 'On your way!';
+                    if ( hits_spins_ratio >= 0.25 ) {
+                        progress = 'Almost there!';
+                        if ( hits_spins_ratio >= 0.5 ) {
+                            progress = 'You win!';
+                        }
+                    }
+                }
+                else {
+                    progress = 'Get going!' ;
+                }
+
+
                 hits_spins_span.innerHTML = (hits/spins).toFixed(2);
-                over_half = over_half || ((hits/spins >= 0.5) && (hits < spins));
-                win_span.innerHTML = over_half;
+                over_half ||= ((hits/spins >= 0.5) && (hits < spins));
+                win_span.innerHTML = progress;
                 "
 
             onclick="
                 hits_span.innerHTML =++hits;
                 hits_spins_span.innerHTML = (hits/spins).toFixed(2);
                 this.className='item';
-                over_half = over_half || ((hits/spins >= 0.5) && (hits < spins));
+                over_half ||= ((hits/spins >= 0.5) && (hits < spins));
                 win_span.innerHTML = over_half;
             ">
 
@@ -169,4 +186,6 @@
 <script>
     var hits=0;
     var spins=0;
+  
+
 </script>
