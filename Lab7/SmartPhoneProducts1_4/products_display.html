@@ -11,7 +11,7 @@
         var store_name ="Airi Shiitsu";
         var first_name ="Airi";
         var last_name ="Shiitsu";
-        var over_hald=false;
+        var over_half=false;
     </script>
 
 </head>
@@ -43,7 +43,6 @@
             Spins:<span id="spins_span">0</span>
             Hit/Spin:<span id="hit_spin_span">0</span>
             You win:<span id="win_span">pending...</span>
-            You suck:<span id="win_span">pending...</span>
             </p>
             
     </header>
@@ -62,10 +61,11 @@
             </div>
         </aside>
         <main>
-            <section class="item"
-            onmouseover="
+            <section class="item" onmouseover="
+        //    if(this.className=='item'){
                 spins_span.innerHTML = ++spins;
                 this.className ='item rotate';
+          // }
 
                 // -- Winning progress depends on hits/spins
                 hits_spins_ratio = hits/spins;
