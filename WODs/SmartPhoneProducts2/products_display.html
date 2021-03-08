@@ -1,0 +1,70 @@
+<script>
+    var num_items = 5;
+
+// Product 1
+        var brand1 = "HTC";
+        var price1 = 40.00;
+        var image1 = "http://dport96.github.io/ITM352/morea/080.flow-control-II/HTC.jpg";
+   
+    // Product 2
+        var brand2 = "Apple";
+        var price2 = 75.00;
+        var image2 = "http://dport96.github.io/ITM352/morea/080.flow-control-II/iphone-3gs.jpg";
+   
+    // Product 3
+        var brand3 = "Nokia";
+        var price3 = 35.00;
+        var image3 = "http://dport96.github.io/ITM352/morea/080.flow-control-II/Nokia.jpg";
+   
+    // Product 4
+        var brand4 = "Samsung";
+        var price4 = 45.00;
+        var image4 = "http://dport96.github.io/ITM352/morea/080.flow-control-II/Samsung.jpg";
+   
+    // Product 5
+        var brand5 = "Blackberry";
+        var price5 = 10.00;
+        var image5 = "http://dport96.github.io/ITM352/morea/080.flow-control-II/Blackberry.jpg";
+    
+
+</script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Phone Store</title>
+    <link href="https://fonts.googleapis.com/css?family=Cherry+Swash|Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="products_style.css">
+</head>
+<body>
+    <header>
+        <h1>Port's Used Smart Phone Store</h1>
+    </header>
+
+    <div>
+        <aside>
+            <div style="font-size:4rem;text-align:center;font-weight: bold;font-style: italic; color: white">
+                We sell from
+                around the globe!
+            </div>
+        </aside>
+
+    <main>
+    <script>
+        for (i =1; i<= num_items; i++){
+            document.write(`
+<section class ="item">
+                <h2>${eval('brand' + i)}</h2>
+                <p>${eval('price' + i)}</p>
+                <img src="${eval('image' + i)}">
+            </section>
+`);
+            }
+        </script>
+    </main>
+</div>
+<footer>
+<H1>Your One Stop Phone Shop</H1>
+</footer>
+
+</body>
+</html>
