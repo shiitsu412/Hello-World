@@ -9,11 +9,11 @@
 <body>
     <table style="border: 1px solid black;text-align: center;" onlick="
     // tb = document.getElementsByTagName('tbody')[0];
-    this.tbody.appendChild(document.createElments('tr'));
+    new_row = this.appendChild(document.createElement('tr'));
     //create cells
-    for(i=1; i <= this.rows[0].cells.length; i++){
-        new_cell = new_rows.appendChild(document.createElments('td'));
-        new_cell.innerHTML = i;
+    for(i=1; i<= this.rows[0].cells.length; i++){
+        new_cell = new_rows.appendChild(document.createElement('td'));
+        new_cell.innerHTML = 'xxx';
     }
     ">
         <tr><th>Product#</th><th>Name</th><th>Price</th><th>Quantity</th><th>Ext price</th></tr>
@@ -35,13 +35,13 @@ products = [
 product[5] ={ 'name': 'xlarge jawbreaker', 'price': 0.25 };
 
         for(var i=0; i < product_quantities.length; i++) {
-            document.write(`<tr><td>${i+1}</tr><td>${product[i].name}</tr><td>${product[i].price}</td><td>${product_quantities[i]}</td><td>${(product_quantities*product[i].price[i]).toFixed(2)}</td></tr>`);
+            document.write(`<tr><td>${i+1}</td><td>${product[i].name}</td><td>${product[i].price}</td><td>${product_quantities[i]}</td><td>${(product_quantities*product[i].price[i]).toFixed(2)}</td></tr>`);
     }
     </script>
        </table>  
        <input type="button" value="Delete Last Row" onclick="
-       tb = document.getElementsByTagName('tbable')[0];
-       console.log(tb.rows)
+       tb = document.getElementsByTagName('table')[0];
+       tb.deleteRow(tb.rows.length - 1);
        "> 
 </body>
 </html>
