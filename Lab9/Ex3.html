@@ -1,9 +1,12 @@
+<html>
 <span id="firstname">Airi</span>, <span id="lastname">Shiitsu</span>
 <br>
 
-<input type="button" value="Swap" 
-    onclick="
-    firstname.innerHTML = lastname.innerHTML;
-    lastname.innerHTML = firstname.innerHTML;
-    document.getElementById("name").innerHTML = firstName + "," + lastName;
-    ">
+<input type="button" value="Swap"
+ onclick="
+ var x = firstname.innerHTML;
+ firstname.innerHTML = lastname.innerHTML;
+ lastname.innerHTML = x;
+ 
+ ">
+</html>
