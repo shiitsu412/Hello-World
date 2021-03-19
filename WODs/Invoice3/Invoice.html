@@ -31,10 +31,6 @@ var item5 = 'Colgate Classic Toothbrush';
      var quantity5 = 12;
      var price5 = 1.89;
      
-
- subtotal=0;
-
-
 </script>
 
 
@@ -57,73 +53,38 @@ var item5 = 'Colgate Classic Toothbrush';
           </tr>
 
         <script>
-
-// Compute extended_price
-extended_price=price*quantity+subtotal
-              // product row 1
+          subtotal=0;
+          for(i=1; eval("typeof item"+i) != 'undefined'; i++) {
+              // product row 
+              extended_price = eval("price"+i)*eval("quantity"+i);
+              subtotal += extended_price;
               document.write(`
           <tr>
-            <td width="43%">${item1}</td>
-            <td align="center" width="11%">${quantity1}</td>
-            <td width="13%">\$${price1}</td>
-            <td width="54%">\$${extended_price1}</td>
+            <td width="43%">${eval("item"+i)}</td>
+            <td align="center" width="11%">${eval("quantity"+i)}</td>
+            <td width="13%">\$${eval("price"+i)}</td>
+            <td width="54%">\$${extended_price}</td>
           </tr>
           `);
-
-            // product row 2
-            document.write(`
-          <tr>
-            <td width="43%">${item2}</td>
-            <td align="center" width="11%">${quantity2}</td>
-            <td width="13%">\$${price2}</td>
-            <td width="54%">\$${extended_price2}</td>
-          </tr>
-          `);
-            // product row 3
-            document.write(`
-          <tr>
-            <td width="43%">${item3}</td>
-            <td align="center" width="11%">${quantity3}</td>
-            <td width="13%">\$${price3}</td>
-            <td width="54%">\$${extended_price3}</td>
-          </tr>
-          `);
-            // product row 4
-            document.write(`
-          <tr>
-            <td width="43%">${item4}</td>
-            <td align="center" width="11%">${quantity4}</td>
-            <td width="13%">\$${price4}</td>
-            <td width="54%">\$${extended_price4}</td>
-          </tr>
-          `);
-            // product row 5
-            document.write(`
-          <tr>
-            <td width="43%">${item5}</td>
-            <td align="center" width="11%">${quantity5}</td>
-            <td width="13%">\$${price5}</td>
-            <td width="54%">\$${extended_price5}</td>
-          </tr>
-          `);
-                  // Compute tax
-        var tax_rate=0.0575;
-        var tax =tax_rate*subtotal;
-
-        // Compute Shipping
-        if(subtotal <= 50){
-          Shipping= 2;
         }
-        else if(subtotal <= 100){
-        Shipping =5;
-        }
-        else{
-          Shipping =0.05*subtotal; // 5% of subtotal
-        }
+// Compute tax
+var tax_rate=0.0575;
+var tax =tax_rate*subtotal;
 
-        // Compute grand total 
-        var total = subtotal + tax + Shipping;
-           
+// Compute Shipping
+if(subtotal <= 50){
+  Shipping= 2;
+}
+else if(subtotal <= 100){
+Shipping =5;
+}
+else{
+  Shipping =0.05*subtotal; // 5% of subtotal
+}
+
+// Compute grand total 
+var total = subtotal + tax + Shipping;
+
         </script>
           
           <tr>

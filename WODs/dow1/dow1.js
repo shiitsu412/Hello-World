@@ -31,7 +31,7 @@ step6 = step5 + monthKey[month];
 
 step7 = step6 % 7;
 
-daynumToDay = []
+daynumToDay = [
     'Sunday',
     'Monday',
     'Tuesday',
