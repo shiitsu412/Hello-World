@@ -1,38 +1,7 @@
-<script>
-    var num_items = 5;
+<script src="./products_data.js"></script>
 
-// Product 1
-var product1 ={
-    'brand' : "HTC",
-    'price' : 40.00,
-    'image' : "http://dport96.github.io/ITM352/morea/080.flow-control-II/HTC.jpg",
-};
-    // Product 2
-    var product2 ={
-    'brand' : "Apple",
-    'price' : 75.00,
-    'image' : "http://dport96.github.io/ITM352/morea/080.flow-control-II/iphone-3gs.jpg",
-    };
-    // Product 3
-    var product3 ={
-    'brand' : "Nokia",
-    'price' : 35.00,
-    'image' : "http://dport96.github.io/ITM352/morea/080.flow-control-II/Nokia.jpg",
-    };
-    // Product 4
-    var product4 ={
-    'brand' : "Samsung",
-    'price' :  45.00,
-    'image' : "http://dport96.github.io/ITM352/morea/080.flow-control-II/Samsung.jpg",
-    };
-    // Product 5
-    var product5 ={
-    'brand' : "Blackberry",
-    'price' : 10.00,
-    'image' : "http://dport96.github.io/ITM352/morea/080.flow-control-II/Blackberry.jpg",
-    };
 
-</script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -54,22 +23,13 @@ var product1 ={
         </aside>
 
     <main>
-        <script>
-             // array of all products
-
-products = [
- { 'name': 'HTC', 'price': 40.00 },
- { 'name': 'Apple', 'price': 75.00 },
- { 'name': 'Nokia', 'price': 35.00 },
- { 'name': 'Samsung', 'price': 45.00 },
- { 'name': 'Blackberry', 'price': 10.00 }
-];
-        for (i =1; i<= num_items; i++){
+    <script>
+        for (i = 0; i< products.length; i++){
             document.write(`
 <section class ="item">
-                <h2>${eval('brand' + i)}</h2>
-                <p>${eval('price' + i)}</p>
-                <img src="${eval('image' + i)}">
+                <h2>${products[i].brand}</h2>
+                <p>$${products[i].price}</p>
+                <img src="${products[i].image}">
             </section>
 `);
             }
