@@ -1,38 +1,41 @@
-<script>
+<script src="products_data.js">
     /* 
     a sales receipt for a sale that contains five different products
     */
-
-
-// Product Data
-
-// Product 1
-var item1 = 'Gillette Sensor 3 Razor';
-     var quantity1 = 2;
-     var price1 = 1.23;
-    
-// Product 2
-var item2 = 'Barbasol Shaving Cream';
-     var quantity2 = 1;
-     var price2 = 2.64;
-
-// Product 3
-var item3 = 'Nautica Cologne';
-     var quantity3 = 1;
-     var price3 = 6.17;
-
-// Product 4
-var item4 = 'Rubbing Alcohol';
-     var quantity4 = 3;
-     var price4 = 0.98;
-
-// Product 5
-var item5 = 'Colgate Classic Toothbrush';
-     var quantity5 = 12;
-     var price5 = 1.89;
      
 </script>
+<script>
+  var quantities = [1,0,'cat',4,5];
+  function generate_item_rows(product_quantities_array) {
+    for(i in products) {
+              // product row 
+              if(product_quantities_array[i] ==0) continue;
+              errors = isNonNegInt(product_quantities_array[i], true);
+              if (errors.length == 0){
+                extended_price = products[i].price*product_quantities_array[i];
+                subtotal += extended_price;
+              } else {
+                extended_price = "";
+              }
+              document.write(`
+          <tr>
+            <td width="43%">${products[i].brand}</td>
+            <td align="center" width="11%">${product_quantities_array[i]}<br><font color="red">$errors.join('<br>')}</font></td>
+            <td width="13%">\$${products[i].price}</td>
+            <td width="54%">\$${extended_price}</td>
+          </tr>
+          `);
+      }
+      }
 
+      function isNonNegInt(val, returnErrors=false){
+    errors = []; 
+    if(Number(val) != val) errors.push('Not a number!'); 
+    if(val < 0) errors.push('Negative value!'); 
+    if(parseInt(val) != val) errors.push('Not an integer!'); 
+    returnErrors ? errors : ((errors.length > 0)?false:true)
+}
+</script>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -52,21 +55,10 @@ var item5 = 'Colgate Classic Toothbrush';
             <th style="text-align: center;" width="54%">extended price</th>
           </tr>
 
-        <script>
-          subtotal=0;
-          for(i=1; eval("typeof item"+i) != 'undefined'; i++) {
-              // product row 
-              extended_price = eval("price"+i)*eval("quantity"+i);
-              subtotal += extended_price;
-              document.write(`
-          <tr>
-            <td width="43%">${eval("item"+i)}</td>
-            <td align="center" width="11%">${eval("quantity"+i)}</td>
-            <td width="13%">\$${eval("price"+i)}</td>
-            <td width="54%">\$${extended_price}</td>
-          </tr>
-          `);
-        }
+<script>
+  subtotal = 0;
+  generate_item_rows(quantities);
+ 
 // Compute tax
 var tax_rate=0.0575;
 var tax =tax_rate*subtotal;
@@ -85,7 +77,7 @@ else{
 // Compute grand total 
 var total = subtotal + tax + Shipping;
 
-        </script>
+</script>
           
           <tr>
             <td colspan="4" width="100%">&nbsp;</td>
