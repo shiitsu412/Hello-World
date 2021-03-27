@@ -1,0 +1,201 @@
+ /* General */
+ 
+ html {
+  
+  font-family: 'Raleway', sans-serif;
+  background-color:#e9967a;
+  font-size: 10px;
+  background: linear-gradient(rgb(248, 248, 193), #e9967a)
+  
+}
+
+body{
+  width: 1000px; margin: 0 auto;
+
+}
+
+/* Typography */
+
+h1, h2 {
+  
+  font-family: 'Cherry Swash', cursive;
+  margin: 0;
+  
+}
+
+
+h1 {
+  font-size: 5rem;
+  background-size: 48px 48px;
+  background-blend-mode: lighten;
+  color:#ec6d72;
+  text-shadow: 1px 0 0 white,
+  0 1px 0 white,
+  -1px 0 0 white,
+  0 -1px 0 white;
+  
+}
+
+h2 {
+  font-size: 2rem;
+  color: rgb(56, 41, 13);
+  text-align: right;
+  width: 160px;
+  position: absolute;
+  right:-7px;
+  z-index: 3000;
+  text-shadow: 2px 2px 1px white;
+  line-height: 6rem;
+  padding-top: 0.3rem;
+}
+
+p {
+  font-size: 1.5rem;
+}
+
+
+/* block styling */
+
+header, footer {
+  padding: 20px;
+}
+main{
+  padding: 80px;
+}
+
+header {
+  border: 5px solid lightskyblue;
+  border-bottom: 0;
+  background: url(images/2054803.jpg) no-repeat 50% center;
+}
+
+
+
+
+body > div {
+  border: 5px solid lightskyblue;
+  display: flex;
+}
+
+
+
+
+footer {
+  border: 5px solid lightskyblue;
+  border-top: 0;
+}
+
+footer h1 {
+  font-style: italic;
+  font-size: 3rem;
+}
+aside{
+  flex: 3;
+}
+
+main {
+  flex: 7;
+}
+
+/*  Form styling */
+
+Main{
+  display:flex;
+  flex-flow:row;
+  justify-content:space-around;
+  }
+
+
+    
+  
+  /* Styling the products */
+    
+  section {
+    width: 45%;
+    margin: 5px;
+    position: relative;
+    height: 215px;
+  }
+  
+  section p {
+    color:rgb(95, 70, 23);
+    background:rgb(212, 184, 121);
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align:center;
+    border-radius: 50%;
+    box-shadow: 2px 2px 1px rgba(214, 212, 196, 0.699);
+    position: absolute;
+    right: 10px;
+    bottom: -90px;
+    z-index: 2000;
+  }
+  
+  
+  .item {
+    background-size: 234px 24px;
+  }
+  
+  
+  .item img {
+    width: 170px;
+    height: 300px; 
+    
+    display:inline;
+    position:relative;
+    bottom: 0px;
+    
+}
+
+
+.rotate img
+{
+  animation: rotation .3s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+/* Speech balloon
+*/
+<style>
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: gray;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+.tooltip .tooltiptext {
+  width: 120px;
+  top: 100%;
+  left: 50%;
+  margin-left: -100px; /* Use half of the width (120/2 = 60), to center the tooltip */
+}
+</style>
