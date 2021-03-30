@@ -3,8 +3,8 @@
 <script>
   let params = (new URL(document.location)).searchParams;
   var quantities = [];
-  if (params.has('purchase_submit')) {
-    // Check the data if it is valid, if not, send back to the products_display.html
+    // form was submitted so process the invoice
+    if (params.has('purchase_submit')) {
     for (i = 0; i < products.length; i++) {
       if (params.has(`quantity${i}`)) {
         a_qty = params.get(`quantity${i}`);
@@ -27,21 +27,23 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  
+ 
  
 </head>
 
 <body style="background-color: #bfefdf">
-  <center>
+  <center style="margin-top: 80px;">
   <table border="2">
-    <tbody>
+    <tbody style="border-color:navy">
   
-      <tr>
-        <th style="text-align: center;" width="43%">Item</th>
-        <th style="text-align: center;" width="11%">quantity</th>
-        <th style="text-align: center;" width="13%">price</th>
-        <th style="text-align: center;" width="54%">extended price</th>
+      <tr >
+        <th style="text-align: center; background-color: darksalmon;" width="43%">Item</th>
+        <th style="text-align: center; background-color: rgb(186, 186, 236);" width="11%">quantity</th>
+        <th style="text-align: center; background-color: rgb(240, 240, 156);" width="13%">price</th>
+        <th style="text-align: center; background-color: rgb(168, 240, 168);" width="54%">extended price</th>
       </tr>
-
+  
       <script>
         subtotal = 0;
         for (i = 0; i < products.length; i++) {
@@ -51,10 +53,10 @@
             subtotal += extended_price;
             document.write(`
       <tr>
-        <td width="43%">${products[i].brand}</td>
-        <td align="center" width="11%">${quantities[i]}</td>
-        <td width="13%">\$${products[i].price}</td>
-        <td width="54%">\$${extended_price}</td>
+        <td style="background-color: #ecbbab" width= "43%">${products[i].item}</td>
+        <td style="background-color: rgb(221, 221, 240)" align="center" width="11%">${quantities[i]}</td>
+        <td style="background-color: rgb(238, 238, 196)" width="13%">\$${products[i].price}</td>
+        <td style="background-color: rgb(207, 245, 207)" width="54%">\$${extended_price}</td>
       </tr>
       `);
           }
@@ -64,11 +66,11 @@
         var tax = tax_rate * subtotal;
 
         // Compute Shipping
-        if (subtotal <= 50) {
-          Shipping = 2;
-        }
-        else if (subtotal <= 100) {
+        if (subtotal < 50) {
           Shipping = 5;
+        }
+        else if (subtotal <= 50) {
+          Shipping = 0;
         }
         else {
           Shipping = 0.05 * subtotal; // 5% of subtotal
@@ -78,40 +80,40 @@
         var total = subtotal + tax + Shipping;
 
       </script>
-
+      <h1 style="font-style: italic"> Thank you for purchase!</h1>
       <tr>
         <td colspan="4" width="100%">&nbsp;</td>
       </tr>
       <tr>
-        <td style="text-align: center;" colspan="3" width="67%">Sub-total</td>
-        <td width="54%">$
+        <td style="text-align: center; background-color: rgb(240, 238, 163)" colspan="3" width="67%">Sub-total</td>
+        <td width="54%" style="background-color: rgb(231, 224, 190) ;">$
           <script>document.write(subtotal);</script>
         </td>
       </tr>
       <tr>
-        <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Tax @
+        <td style="text-align: center; background-color: rgb(185, 170, 240)" colspan="3" width="67%"><span>Tax @
             <script>document.write(100 * tax_rate);</script>%
           </span></td>
-        <td width="54%">$
+        <td width="54%" style="background-color: rgb(200, 193, 226);">$
           <script>document.write(tax.toFixed(2));</script>
         </td>
       </tr>
       <tr>
-        <td style="text-align: center;" colspan="3" width="67%">Shipping</td>
-        <td width="54%">$
+        <td style="text-align: center; background-color: rgb(240, 172, 172)" colspan="3" width="67%">Shipping</td>
+        <td width="54%" style="background-color: rgb(238, 196, 196) ;">$
           <script>document.write(Shipping.toFixed(2));</script>
         </td>
       </tr>
       <tr>
-        <td style="text-align: center;" colspan="3" width="67%"><strong>Total</strong></td>
-        <td width="54%"><strong>$
+        <td style="text-align: center; background-color: rgb(123, 211, 203)" colspan="3" width="67%"><strong>Total</strong></td>
+        <td width="54%" style="background-color:rgb(183, 214, 212) ;"><strong>$
             <script>document.write(total.toFixed(2));</script>
           </strong></td>
       </tr>
     </tbody>
   </table>
-  <div><b>OUR SHIPPING POLICY IS:A subtotal $0 - $29.99 will be charged $5 for delivery fee
-      Subtotals over $50 will be delivered for FREE!</b></div>
+  <div style="margin-top: 25px; margin-left: 100px;"><b>A subtotal under $50.00 will be charged $5 for delivery fee, and 
+      Subtotals over $50 will be delivered for FREE!💕</b></div>
   </center>
 </body>
 
