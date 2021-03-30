@@ -1,11 +1,10 @@
  /* General */
  
  html {
-  
-  font-family: 'Raleway', sans-serif;
   background-color:#e9967a;
+  font-family: 'Raleway', sans-serif;
   font-size: 10px;
-  background: linear-gradient(rgb(248, 248, 193), #e9967a)
+  background: linear-gradient(rgb(248, 193, 232), #7ac0e9)
   
 }
 
@@ -64,30 +63,23 @@ main{
 }
 
 header {
-  border: 5px solid lightskyblue;
-  border-bottom: 0;
+  
+  border-top: 15px solid#f5fffa;
+  border-bottom:15px solid #f5fffa
+  ;
+  position: relative;
+  top: 40px;
   background: url(images/2054803.jpg) no-repeat 50% center;
-}
-
-
-
-
-body > div {
-  border: 5px solid lightskyblue;
-  display: flex;
-}
-
-
-
-
-footer {
-  border: 5px solid lightskyblue;
-  border-top: 0;
 }
 
 footer h1 {
   font-style: italic;
   font-size: 3rem;
+}
+
+footer {
+  position:relative;
+  bottom: -70;
 }
 aside{
   flex: 3;
@@ -103,6 +95,7 @@ Main{
   display:flex;
   flex-flow:row;
   justify-content:space-around;
+ 
   }
 
 
@@ -132,6 +125,12 @@ Main{
     z-index: 2000;
   }
   
+
+  .cafeimg{
+    text-align: center;
+    position: relative;
+    top: 70px;
+  }
   
   .item {
     background-size: 234px 24px;
@@ -139,15 +138,14 @@ Main{
   
   
   .item img {
-    width: 170px;
-    height: 300px; 
+    width: 210px;
+    height: 360px; 
     
     display:inline;
     position:relative;
     bottom: 0px;
-    
+    margin-left: 30px;
 }
-
 
 .rotate img
 {
@@ -198,4 +196,5 @@ Main{
   left: 50%;
   margin-left: -100px; /* Use half of the width (120/2 = 60), to center the tooltip */
 }
+
 </style>
