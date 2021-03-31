@@ -126,11 +126,7 @@ Main{
   }
   
 
-  .cafeimg{
-    text-align: center;
-    position: relative;
-    top: 70px;
-  }
+  
   
   .item {
     background-size: 234px 24px;
@@ -147,19 +143,6 @@ Main{
     margin-left: 30px;
 }
 
-.rotate img
-{
-  animation: rotation .3s infinite linear;
-}
-
-@keyframes rotation {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(359deg);
-  }
-}
 
 /* Speech balloon
 */
