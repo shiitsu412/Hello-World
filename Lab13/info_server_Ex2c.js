@@ -6,10 +6,11 @@ app.all('*', function (request, response, next) {
   next();
 });
 
-app.get('/test', function (request, response, next) {
+app.get('/test.html', function (request, response, next) {
   response.send('I got a request for /test');
 });
 
+app.use(express.static('./public'));
 
 app.listen(8080, function () {
   console.log(`listening on port 8080`)
