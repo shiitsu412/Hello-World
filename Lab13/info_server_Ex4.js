@@ -2,11 +2,9 @@ var express = require('express');
 var app = express();
 var myParser = require("body-parser");
 app.use(myParser.urlencoded({ extended: true }));
-
 var qs = require('qs');
 
 var products = require('./product_data.json');
-
 
 app.get("/product_data.js", function (request, response, next) {
    var products_str = `var products = ${JSON.stringify(products)};`;
@@ -22,8 +20,7 @@ app.all('*', function (request, response, next) {
 app.get('/test.html', function (request, response, next) {
   response.send('I got a request for /test');
 });
-function process_quantity_form(pose_data, request, response) {
-   
+function process_quantity_form(post_data, request, response) {
     
   if (post_data['quantity_textbox']) {
     the_qty = post_data['quantity_textbox'];
@@ -42,7 +39,7 @@ function process_quantity_form(pose_data, request, response) {
 
 }
 // This processed the form from order_page.html
-app.post('/displsy_purchase.html', function (request, response, next) {
+app.post('/display_purchase.html', function (request, response, next) {
   process_quantity_form(request.body, request, response);
 });
 

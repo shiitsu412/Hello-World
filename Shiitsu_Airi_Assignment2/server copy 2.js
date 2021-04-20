@@ -20,6 +20,8 @@ if (fs.existsSync(user_data_file)) {
   console.log(user_data_file + ' does not exist!');
 }
 
+//Rputing and middleware
+app.use(myParser.urlencoded({ extended: true }));
 
 
 app.all('*', function (req, res, next) {
@@ -27,9 +29,8 @@ app.all('*', function (req, res, next) {
   next();
 });
 
-app.get("/products.js", function (req, res, next) {
-  res.send(`var products=${JSON.stringify(products)}; `);
-  
+app.get("/products.json", function (req, res, next) {
+  res.json(products);
 });
 
 // I copied from professor's server.js file
@@ -56,7 +57,7 @@ app.get('/purchase', function (req, res, next) {
     if (has_errors || total_qty == 0) {
       res.redirect('products_display.html?' + qs.stringify(user_quantity_data));
     } else { // all good to go!
-      res.redirect('login.html?' + qs.stringify(user_quantity_data));
+      res.redirect('login.html');
     }
 
   }
@@ -71,16 +72,45 @@ app.post('/login', function (request, response, next){
 if (typeof user_data[username_entered] != 'undefined') {
 if (user_data[username_entered]['password'] == password_entered) {
 user_quantity_data['username'] = username_entered;
-response.redirect('/invoice.html?' + qs.stringify(request.query));
+response.redirect('/invoice.html?' + qs.stringify(user_data_file));
 } else {
-     response.redirect('/login.html?' +qs.stringify(request.query));
+     response.redirect('login.html');
     }
   }
 });
 
+app.get("/register", function (request, response) {
+  // only allow login after selecting products
+  if (typeof user_quantity_data != 'undefined') {
+    // Give a simple register form
+    str = `
+<body>
+<form action="" method="POST">
+<input type="text" name="username" size="40" placeholder="enter username" ><br />
+<input type="password" name="password" size="40" placeholder="enter password"><br />
+<input type="password" name="repeat_password" size="40" placeholder="enter password again"><br />
+<input type="email" name="email" size="40" placeholder="enter email"><br />
+<input type="submit" value="Submit" id="submit">
+</form>
+</body>
+  `;
+    response.send(str);
+  } else {
+    str = `
+    <head>
+    <script>
+        alert('You need to select some products before registering!');
+        
+        window.location = './products_display.html';
+    </script>
+    </head>
+        `;
+        response.send(str);
+  } 
 
-app.post('/process_register', function (req, res,next) {
-  console.log(req.body);
+});
+
+app.post('/register', function (req, res) {
   // add a new user to the DB
   username = req.body["username"];
 
@@ -91,7 +121,8 @@ app.post('/process_register', function (req, res,next) {
   //same updated user data to file DB
   fs.writeFileSync(user_data_file, JSON.stringify(user_data));
   console.log("Saved: " + user_data);
-  res.redirect('/invoice.html?' + qs.stringify(req.query)); // transient data passed to invoice in a query string
+  user_quantity_data['username'] = username; // add the username to the data that will be sent to the invoice so the user can be identified with this transient data
+  response.redirect('/invoice.html?' + qs.stringify(user_quantity_data)); // transient data passed to invoice in a query string
 });
 
 
