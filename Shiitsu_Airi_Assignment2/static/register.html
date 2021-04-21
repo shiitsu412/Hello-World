@@ -16,7 +16,7 @@
   
   </script>
     <div class="container">
-      <h1>Register</h1>
+      <h1>Register 🎶</h1>
 
 
       <div class="imgcontainer">
@@ -31,22 +31,17 @@
         id="username" required>
 
       <label for="email"><b>Email</b></label>
-      <input type="text" placeholder="Enter Email" name="email" id="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+      <input type="text" placeholder="Enter Email" name="email" id="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required title="Your email should be like aaa@example.com" >
 
       <script>
-        function ValidateEmail(email) {
-          var email_format= /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9_-]+\.[a-zA-Z0-9-.]{2,61}$/;
-          if (email.value!=(email_format.value)) errors.push("Please put valid email address");
-            return (false);}
-
 
       </script>
 
       <label for="psw"><b>Password</b></label>
-      <input type="password" minlength="6" placeholder="Enter Password" name="psw" id="psw" required>
+      <input type="password" minlength="6" pattern=".{6,}" placeholder="Enter Password" name="psw" id="psw" required>
 
       <label for="psw-repeat"><b>Repeat Password</b></label>
-      <input type="password" placeholder="Repeat Password" name="pswrepeat" id="pswrepeat" required>
+      <input type="password" pattern=".{6,}" placeholder="Repeat Password" name="pswrepeat" id="pswrepeat" required>
 
       <div class="registrationFormAlert" style="color:green;" id="CheckPasswordMatch">
         <script>
@@ -74,10 +69,11 @@
         <button type="submit" class="registerbtn">Register</button>
         
       </div>
-
-      <div class="containersignin">
-        <p  style="color:black">Already have an account? <a href="login.html">Sign in</a>.</p>
-      </div>
+      <script>
+        document.write(`<div class="login" style="color:black">Already have an account? <a href="login.html${location.search}">Sign in</a></div>`)
+      </script>
+  
+     
   </form>
 </body>
 
