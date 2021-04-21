@@ -80,7 +80,6 @@ footer h1 {
 footer {
   position:relative;
   bottom: -70;
-  margin-top: 50px;
 }
 aside{
   flex: 3;
@@ -194,7 +193,7 @@ input {
 }
 
   section input {
-    color: black;
+    color: rgb(68, 68, 227);
     background: rgb(248, 202, 209);
     width: 45px;
     height: 45px;
