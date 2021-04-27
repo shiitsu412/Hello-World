@@ -1,9 +1,7 @@
 * {box-sizing: border-box}
 
 /* Add padding to containers */
-.container {
-  padding: 16px;
-}
+
 
 /* Full-width input fields */
 input[type=text], input[type=password] {
@@ -28,7 +26,7 @@ hr {
 
 /* Set a style for the submit/register button */
 .registerbtn {
-  background-color: #4CAF50;
+  background-color: mediumvioletred;
   color: white;
   padding: 16px 20px;
   margin: 8px 0;
@@ -52,3 +50,35 @@ a {
   background-color: #f1f1f1;
   text-align: center;
 }
+
+html {
+  background-color:#e9967a;
+  font-family: 'Raleway', sans-serif;
+  font-size: 10px;
+  background:  linear-gradient(lightpink,aquamarine);
+}
+
+.container {
+  font-family:Georgia, 'Times New Roman', Times, serif;
+  font-size: 25px;
+  margin-left: 500px;
+  margin-right: 500px;
+  color:black;
+  
+}
+p{
+  color: black;
+}
+  img.drink3 {
+    width: 30%;
+    border-radius: 30% ;
+    margin-top:30px;
+    margin-left: 100px;
+    width: 70%;
+    height: 70%;
+    object-fit: contain;
+  }
+
+  
+  
+

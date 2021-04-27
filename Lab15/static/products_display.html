@@ -1,4 +1,5 @@
-<script src="products.json" type="text/javascript"></script>
+<script src="products.js" type="text/javascript"></script>
+<script>console.log(products);</script>
 
 
 <script>
@@ -17,8 +18,14 @@
         if (theTextbox.value.trim() == '') errs = ['Quantity'];
         document.getElementById(theTextbox.name + '_label').innerHTML = errs.join(", ");
     }
+  
+                
+                                          
+    
+ 
+   
 // I got this from Assignment1 example
-    window.onload = function () {
+function redisplay() {
         let params = (new URL(document.location)).searchParams; // get the query string which has the form data
         // form was submitted so check that quantities are valid then redirect to invoice if ok.
       
@@ -42,13 +49,10 @@
                 alert("Please enter only valid quantities!");
             } else if (total_qty == 0) { // no quantity selections, just give a general alert
                 alert("Please select some quantities!");
-            } else { // all good to go!
-                window.location = `./login.html${document.location.search}`;
-                window.stop;
-                //display_invoice();
-            }
-        }
-    }
+            }}}
+     
+    
+        
 </script>
 
 <!DOCTYPE html>
@@ -67,12 +71,13 @@
             var store_name = "Airi Shiitsu";
             var first_name = "Airi";
             var last_name = "Shiitsu";
+         
         </script>
 
     </head>
 
 <body>
-    <form name="product_form" action="" method="GET">
+    <form name="product_form" action="purchase" method="GET">
         <header>
 
             <h1>
@@ -100,35 +105,35 @@
 
         <div>
 
-            <main>
-
+            <main id="products_main_display">
                 <script>
-                    for (i = 0; i < products.length; i++) {
-                        document.write(`
-        <section class ="item">
-                        <h2>${products[i].item}</h2>
-                        <p>$${products[i].price}</p>
-                        <div class="tooltip"><img src="${products[i].image}"><span class="tooltiptext">${products[i].info}</span>
-            </div>
-            <label id="quantity${i}_label"}">Quantity</label>
-            <input type="text" placeholder="0" name="quantity${i}" onkeyup="checkQuantityTextbox(this);">
+                for (i = 0; i < products.length; i++) {
+                    products_main_display.innerHTML +=
+                    `
+    <section class ="item">
+                    <h2>${products[i].item}</h2>
+                    <p>$${products[i].price}</p>
+                    <div class="tooltip"><img src="${products[i].image}"><span class="tooltiptext">${products[i].info}</span>
+        </div>
+        <div>
+        <label id="quantity${i}_label"}">Quantity</label>
+        <input type="text" placeholder="0" name="quantity${i}" onkeyup="checkQuantityTextbox(this);">
+</div>
+                </section>
+    `;
+                }
+            </script>
 
-                    </section>
-        `);
-                    }
-
-
-                </script>
                 <center>
-                    <input type="submit" name="purchase_submit" value="Purchase">
+                    <input type="submit" name="purchase_submit" value="Purchase!">
                 </center>
-
             </main>
 
+           
         </div>
-
+        
     </form>
-
+    
     <footer>
 
         <script>

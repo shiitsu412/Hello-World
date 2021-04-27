@@ -29,7 +29,7 @@ app.all('*', function (req, res, next) {
 
 app.get("/products.js", function (req, res, next) {
   res.send(`var products=${JSON.stringify(products)}; `);
-  
+
 });
 
 // I copied from professor's server.js file
@@ -65,21 +65,24 @@ app.get('/purchase', function (req, res, next) {
 
 
 // This processed the login form if not
-app.post('/login', function (request, response, next){
-   username_entered = request.body["username"];
+app.post('/login', function (request, response, next) {
+  username_entered = request.body["username"];
   password_entered = request.body["psw"];
-if (typeof user_data[username_entered] != 'undefined') {
-if (user_data[username_entered]['password'] == password_entered) {
-user_quantity_data['username'] = username_entered;
-response.redirect('/invoice.html?' + qs.stringify(request.query));
-} else {
-     response.redirect('/login.html?' +qs.stringify(request.query));
+  if (typeof user_data[username_entered] != 'undefined') {
+    if (user_data[username_entered]['password'] == password_entered) {
+      //add username and email address to query string
+      request.query['username'] = username_entered;
+      request.query['email'] = user_data[username_entered]['email'];
+      request.query['name'] = user_data[username_entered]['name'];
+      response.redirect('/invoice.html?' + qs.stringify(request.query));
+    } else {
+      response.redirect('/login.html?' + qs.stringify(request.query));
     }
   }
 });
 
 
-app.post('/process_register', function (req, res,next) {
+app.post('/process_register', function (req, res, next) {
   console.log(req.body);
   // add a new user to the DB
   username = req.body["username"];
