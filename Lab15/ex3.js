@@ -6,6 +6,8 @@ var qs = require('qs');
 var fs = require('fs');
 const e = require('express');
 
+var products = require('./products.json');
+
 var cookieParser = require('cookie-parser');
 app.use(cookieParser());
 var session = require('express-session');
@@ -35,40 +37,36 @@ app.get('/set_cookie', function(req, res, next) {
 app.get('/use_cookie', function(req, res, next) {
   //console.log(req.cookie);
   if(typeof req.cookies["my_name"] != 'undefined'){
-    res.send(`Hello ${req.cookies["my_name"]}!`);
+    let username = req.cookies["username"];
+    res.cookie('username', username,{"maxAge": 10*100});
+
+    res.send(`${user_data[username]["name"]}is logged in`);
   }else{
-    res.send("I don't know you!")
+    res.send("You're not logged in")
   }
   next();
 });
 
-  
-var products = require('./products.json');
-const { RSA_NO_PADDING } = require('constants');
-const { response } = require('express');
-var user_quantity_data; // make a global variable to hold the product selections until we get to the invoice
 
-//var user_data = require('./user_data.json');
+// var user_data = require('./user_data.json');
 // Read user data file
 var user_data_file = './user_data.json';
 if (fs.existsSync(user_data_file)) {
   var file_stats = fs.statSync(user_data_file);
-  data = fs.readFileSync(user_data_file, 'utf-8');
-   user_data = JSON.parse(data);
+  //console.log(`${user_data_file} has ${file_stats["size"]} characters`);
+  var user_data = JSON.parse(fs.readFileSync(user_data_file, 'utf-8'));
 } else {
-  console.log(user_data_file + ' does not exist!');
+  console.log(`${user_data_file} does not exist!`);
 }
 
-
-
 app.all('*', function (req, res, next) {
-  console.log(`${req.method} request to ${req.path}`);
+  console.log(req.method, req.path);
   next();
 });
 
 app.get("/products.js", function (req, res, next) {
   res.send(`var products=${JSON.stringify(products)}; `);
-  
+
 });
 
 // I copied from professor's server.js file
@@ -101,34 +99,27 @@ app.get('/purchase', function (req, res, next) {
   }
 });
 
+app.get("/register", function (request, response) {
+  // only allow login after selecting products
+  if (typeof user_quantity_data != 'undefined') {
+    // Give a simple register form
+    str = `
+<body>
+<form action="" method="POST">
+<input type="text" name="username" size="40" placeholder="enter username" ><br />
+<input type="password" name="password" size="40" placeholder="enter password"><br />
+<input type="password" name="repeat_password" size="40" placeholder="enter password again"><br />
+<input type="email" name="email" size="40" placeholder="enter email"><br />
+<input type="submit" value="Submit" id="submit">
+</form>
+</body>
+  `;
+    response.send(str);
+  }});
 
-
-// This processed the login form if not
-app.post('/login', function (req, res, next){
-  if(typeof req.session['last_login']!='undefined'){
-    console.log('Last login time was' +req.session['last_login']);
-  }else{
-    console.log("first time login");
-  }
-  req.session['last_login']= Date();
-  username_entered = req.body["username"];
-  password_entered = req.body["psw"];
-if (typeof user_data[username_entered] != 'undefined') {
-if (user_data[username_entered]['password'] == password_entered) {
-  response.cookie('username'. username_entered);
-user_quantity_data['username'] = username_entered;
-res.redirect('/invoice.html?' + qs.stringify(req.query));
-} else {
-     res.redirect('/login.html?' +qs.stringify(req.query));
-    }
-  }
-});
-
-
-app.post('/process_register', function (req, res, next) {
-  
+app.post('/process_register', function(req, res, next){
+  console.log(req.body);
   // add a new user to the DB
-
   username = req.body["username"];
 
   user_data[username] = {};
@@ -141,6 +132,55 @@ app.post('/process_register', function (req, res, next) {
   res.redirect('/invoice.html?' + qs.stringify(req.query)); // transient data passed to invoice in a query string
 });
 
+
+
+app.get("/login", function (request, response) {
+  // Give a simple login form
+  str = `
+<body>
+<form action="" method="POST">
+<input type="text" name="username" size="40" placeholder="enter username" ><br />
+<input type="password" name="password" size="40" placeholder="enter password"><br />
+<input type="submit" value="Submit" id="submit">
+</form>
+</body>
+  `;
+  response.send(str);
+});
+
+
+// This processed the login form 
+app.post('/process_login', function (request, response, next) {
+  let username_entered = request.body["username"];
+  let password_entered = request.body["psw"];
+  if(typeof user_data[username_entered] !='undefined'){
+    if(user_data[username_entered]['password']== password_entered){
+  //add username and email address to query string
+  request.query['username'] = username_entered;
+  request.query['email'] = user_data[username_entered]['email'];
+  request.query['name'] = user_data[username_entered]['name'];
+  response.redirect('/invoice.html?' + qs.stringify(request.query));
+} else {
+  response.redirect('/login.html?' + qs.stringify(request.query));
+}
+}
+});
+
+// This processed the login form 
+app.post('/process_register', function (req, res, next) {
+  console.log(req.body);
+  // add a new user to the DB
+  username = req.body["username"];
+
+  user_data[username] = {};
+  user_data[username]["password"] = req.body["psw"];
+  user_data[username]["email"] = req.body["email"];
+  user_data[username]["name"] = req.body["fullname"];
+  //same updated user data to file DB
+  fs.writeFileSync(user_data_file, JSON.stringify(user_data));
+  console.log("Saved: " + user_data);
+  res.redirect('/invoice.html?' + qs.stringify(req.query)); // transient data passed to invoice in a query string
+});
 
 app.use(express.static('./static'));
 

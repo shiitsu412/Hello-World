@@ -17,11 +17,6 @@ app.get('/set_session', function(req,res,next){
   next();
 });
 
-app.get('/use_session', function(req,res,next){
-  res.send(`Your session ID is ${req.session.id}`);
-  next();
-});
-
 app.get('/set_cookie', function(req, res, next) {
   //console.log(req.cookie)
   let my_name='Airi Shiitsu';
@@ -45,7 +40,6 @@ app.get('/use_cookie', function(req, res, next) {
   
 var products = require('./products.json');
 const { RSA_NO_PADDING } = require('constants');
-const { response } = require('express');
 var user_quantity_data; // make a global variable to hold the product selections until we get to the invoice
 
 //var user_data = require('./user_data.json');
@@ -111,11 +105,11 @@ app.post('/login', function (req, res, next){
     console.log("first time login");
   }
   req.session['last_login']= Date();
+
   username_entered = req.body["username"];
   password_entered = req.body["psw"];
 if (typeof user_data[username_entered] != 'undefined') {
 if (user_data[username_entered]['password'] == password_entered) {
-  response.cookie('username'. username_entered);
 user_quantity_data['username'] = username_entered;
 res.redirect('/invoice.html?' + qs.stringify(req.query));
 } else {
