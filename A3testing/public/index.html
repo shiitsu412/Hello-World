@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" style="background-color:rgb(255, 203, 211)">
+
+<head>
+    <script src="./functions.js"></script> 
+    <script>
+    var products_data;
+    loadJSON('get_products_data', function(response) {
+         // Parsing JSON string into object
+         products_data = JSON.parse(response);
+    });
+    var this_product_key = ''
+    </script>
+
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Sweet Cha Cafe</title>
+     <style>
+         h1 {
+             text-align: center;
+             background: powderblue;
+         }
+ 
+     </style>
+    </head>
+
+    <body>
+    
+        <h1 style="color:rgb(250, 143, 161); font-size: 40px;">Airi's Sweet Tea Shop</h1>
+        <h2 style= "text-align: center; color:cornflowerblue">You thirsty? Let's get your tasty tea! <br></h2>
+        
+        <header>  
+            <nav>  
+            <ul style="text-align: center">  
+            <a href="index.html"> Home </a>  
+            <script>
+                document.write(`<div class="login"><a href="login.html${location.search}">Login</a></div>`)
+              </script>
+            </ul>  
+            </nav>  
+            </header>  
+        
+        <h3 style= "text-align: center; background-color: rgb(240, 238, 163)"><script> nav_bar(this_product_key, products_data);</script></h3>
+        
+
+      
+        
+
+    
+  
+    </body>
+    </html>

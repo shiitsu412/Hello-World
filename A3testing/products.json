@@ -1,0 +1,73 @@
+{ 
+    "Milk Tea":[ 
+        {
+            "name": "Small Milk Tea",
+            "price": 4.00,
+            "image": "Images/Milktea.png"
+        },
+        {
+            "name": "Med Milk Tea",
+            "price": 5.00
+        },
+        {
+            "name": "Large Milk Tea",
+            "price": 6.00
+        }
+    ],
+    "Green Tea": [ 
+        {
+            "name": "Small Green Tea",
+            "price": 5.00
+        },
+        {
+            "name": "Med Green Tea",
+            "price": 6.00
+        },
+        {
+            "name": "Large Green Tea",
+            "price": 7.00
+        }
+    ],
+    "Chocolate": [
+        {
+            "name": "Small Chocolate",
+            "price": 5.00
+        },
+        {
+            "name": "Med Chocolate",
+            "price": 6.00
+        },
+        {
+            "name": "Large Chocolate",
+            "price": 7.00
+        }
+    ],
+    "Strawberry": [ 
+        {
+            "name": "Small Strawberry",
+            "price": 5.00
+        },
+        {
+            "name": "Med Strawberry",
+            "price": 6.00
+        },
+        {
+            "name": "Large Strawberry",
+            "price": 7.00
+        }
+    ],  
+    "Lemonade": [ 
+        {
+            "name": "Small Lemonade",
+            "price": 5.00
+        },
+        {
+            "name": "Med Lemonade",
+            "price": 6.00
+        },
+        {
+            "name": "Large Lemonade",
+            "price": 7.00
+        }
+    ]
+}
