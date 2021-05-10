@@ -61,19 +61,17 @@ app.post("/get_cart", function (request, response) {
 
 
 app.get("/checkout", function (request, response) {
-    // Generate HTML invoice string
-      var invoice_str = `Thank you for your order!<table border><th>Quantity</th><th>Item</th>`;
-      var shopping_cart = request.session.cart;
-      for(product_key in products_data) {
-        for(i=0; i<products_data[product_key].length; i++) {
-            if(typeof shopping_cart[product_key] == 'undefined') continue;
-            qty = shopping_cart[product_key][i];
-            if(qty > 0) {
-              invoice_str += `<tr><td>${qty}</td><td>${products_data[product_key][i].name}</td><tr>`;
-            }
-        }
-    }
-      invoice_str += '</table>';
+  console.log(request.body);
+  response.redirect('/invoice.html?' + qs.stringify(request.query));
+
+
+
+
+
+
+
+
+
     // Set up mail server. Only will work on UH Network due to security restrictions
       var transporter = nodemailer.createTransport({
         host: "mail.hawaii.edu",
