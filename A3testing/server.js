@@ -1,55 +1,23 @@
 var express = require('express');
 var app = express();
 var myParser = require("body-parser");
+var session = require('express-session');
+var products_data = require('./products.json');
+var nodemailer = require('nodemailer');
+
+app.use(myParser.urlencoded({ extended: true }));
+app.use(session({secret: "ITM352 rocks!"}));
 
 var qs = require('qs');
 var fs = require('fs');
 const e = require('express');
 
-var session = require('express-session');
-var products_data = require('./products.json');
 var user_quantity_data; // make a global variable to hold the product selections until we get to the invoice
-
-
-app.use(myParser.urlencoded({ extended: true }));
-app.use(session({secret: "ITM352 rocks!"}));
-
 
 var cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
-app.get('/set_session', function(req,res,next){
-  res.send(`Welcome, your session ID is ${req.session.id}`);
-  next();
-});
 
-app.get('/use_session', function(req,res,next){
-  res.send(`Your session ID is ${req.session.id}`);
-  next();
-});
-
-app.get('/set_cookie', function(req, res, next) {
-  //console.log(req.cookie)
-  let my_name='Airi Shiitsu';
-  now= new Date();
-  res.cookie('my_name', my_name, {expire:5000 + now.getTime()});
-  res.send(`Cookie for ${my_name} sent`);
-  next();
-});
-
-
-app.get('/use_cookie', function(req, res, next) {
-  //console.log(req.cookie);
-  if(typeof req.cookies["my_name"] != 'undefined'){
-    let username = req.cookies["username"];
-    res.cookie('username', username,{"maxAge": 10*100});
-
-    res.send(`${user_data[username]["name"]}is logged in`);
-  }else{
-    res.send("You're not logged in")
-  }
-  next();
-});
 
 // var user_data = require('./user_data.json');
 // Read user data file
@@ -64,12 +32,17 @@ if (fs.existsSync(user_data_file)) {
 
 
 app.all('*', function (request, response, next) {
-    console.log(`Got a ${request.method} to path ${request.path}`);
-    // need to initialize an object to store the cart in the session. We do it when there is any request so that we don't have to check it exists
-    // anytime it's used
-    if(typeof request.session.cart == 'undefined') { request.session.cart = {}; } 
-    next();
+  //Im not sure whether I need this code or not line 75
+  console.log(`Got a ${request.method} to path ${request.path}`);
+
+  // need to initialize an object to store the cart in the session. We do it when there is any request so that we don't have to check it exists
+  // anytime it's used
+  if (typeof request.session.cart == 'undefined') { request.session.cart = {}; }
+  request.session.save();
+  next();
 });
+
+
 
 app.post("/get_products_data", function (request, response) {
     response.json(products_data);
@@ -82,39 +55,10 @@ app.get("/add_to_cart", function (request, response) {
     response.redirect('./cart.html');
 });
 
-app.get("/get_cart", function (request, response) {
+app.post("/get_cart", function (request, response) {
     response.json(request.session.cart);
 });
 
-// I copied from professor's server.js file
-app.get('/Select', function (req, res, next) {
-  user_quantity_data = req.query; // save for later
-  if (typeof req.query['Select'] != 'undefined') {
-    console.log(Date.now() + ': Purchase made from ip ' + req.ip + ' data: ' + JSON.stringify(req.query));
-
-    user_quantity_data = req.query; // get the query string data which has the form data
-    // form was submitted so check that quantities are valid then redirect to invoice if ok.
-
-    has_errors = false; // assume quantities are valid from the start
-    total_qty = 0; // need to check if something was selected so we will look if the total > 0
-    for (i = 0; i < products_data.length; i++) {
-      if (user_quantity_data[`quantity${i}`] != 'undefined') {
-        a_qty = user_quantity_data[`quantity${i}`];
-        total_qty += a_qty;
-        if (!isNonNegInt(a_qty)) {
-          has_errors = true; // oops, invalid quantity
-        }
-      }
-    }
-    // Now respond to errors or redirect to login if all is ok
-    if (has_errors || total_qty == 0) {
-      res.redirect('display_products.html?' + qs.stringify(user_quantity_data));
-    } else { // all good to go!
-      res.redirect('cart.html?' + qs.stringify(user_quantity_data));
-    }
-
-  }
-});
 
 app.get("/checkout", function (request, response) {
     // Generate HTML invoice string

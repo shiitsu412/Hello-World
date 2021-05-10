@@ -1,5 +1,5 @@
+
 <head>
-    <link rel="stylesheet" href="cart.css">
     <script src="./functions.js"></script>
     <script>
         var products_data;
@@ -11,9 +11,7 @@
             // Parsing JSON string into object
             shopping_cart = JSON.parse(response);
         });
-
         nav_bar('', products_data);
-
     </script>
 </head>
 <h2>You have in your shopping cart:</h2>
@@ -28,16 +26,5 @@
         }
     }
 }
-
-  
 </script>
-<form action="/checkout" method=GET>
-Email address: <input type=email name=email>
-<input type=submit value="Checkout">
-</form>
-
-<script>
-document.write(`<div class="login" style="color:black"><a href="index.html${location.search}">Continue Shopping?</a></div>`)
-</script>
-
 </table>

@@ -1,8 +1,10 @@
 <script src="products.js" type="text/javascript"></script>
 <script>console.log(products);</script>
 
+
 <head>
     <script src="./functions.js"></script>
+    <link rel="stylesheet" href="display_products.css">
     <script>
 
         // get the query string
@@ -15,9 +17,18 @@
         }
 
         var products_data;
+        var total = 0;
         loadJSON('get_products_data', function (response) {
             // Parsing JSON string into object
             products_data = JSON.parse(response);
+        });
+
+        loadJSON('get_cart', function (response) {
+            // Parsing JSON string into object
+            shopping_cart = JSON.parse(response);
+            for (pk in shopping_cart) {
+                total += shopping_cart[pk].reduce((a, b) => a + b);
+            }
         });
     </script>
 </head>
@@ -37,11 +48,13 @@
         </nav>  
         </header> 
 
-    <script> nav_bar(products_key, products_data);</script>
+    <h3><script> nav_bar(products_key, products_data);</script></h3>
 </center>
 
+<h2>You have <span id="cart_total">0</span> items in your shopping cart: <a href='./cart.html'>View Cart</a></h2>
+<script>cart_total.innerHTML = total;</script>
 <script>
-
+   
 
     // This function takes a string assumed to be a key in the products array above to display and select the corresponding products
     var order_str = '';
@@ -57,26 +70,24 @@
         order_str += `<h1>Please select what ${products_key} you want</h1><br>`;
         // We put the whole table in the form so that anything entered in it will get submitted
         order_str += `
-            <FORM action="" method="GET">
+            <FORM action="/add_to_cart" method="GET">
             <INPUT TYPE="HIDDEN" NAME="products_key" VALUE="${products_key}">
                 <TABLE BORDER>
                     <TR><TD><B><BIG>Description</TD><TD><B><BIG>Price</TD><TD><B><BIG>Quantity Desired</TD></TR>`;
 
+              
         for (i = 0; i < products.length; i++) {
             order_str += `<TR><TD>${products[i]['name']}</TD><TD>${products[i]['price']}</TD><TD>
                 <INPUT TYPE="TEXT"  name="quantities[${i}]"></TD></TR>`;
         }
         order_str += `</TABLE><br>
-<INPUT TYPE="SUBMIT"  name="Submit" value="Select">
+        <center>
+<INPUT TYPE="SUBMIT"  name="Submit" value="Select" style="font-size: 18px">
+    </center>
 </FORM>`;
     } // this closes the else for the form and table display
     document.write(order_str);
     
-    
-    document.write(`<div class="login" style="color:black"><a href="invoice.html${location.search}">Check Out?</a></div>`)
-    document.write(`or`);
-    document.write(`<div class="login" style="color:black"><a href="index.html${location.search}">Continue Shopping?</a></div>`)
-     
     // to let user put valid quantity
 
     // I got this from Assignment1 example
