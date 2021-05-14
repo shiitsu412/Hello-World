@@ -1,3 +1,4 @@
+//// Reference from ITM352 assignment 1 
 var express = require('express');
 var app = express();
 var myParser = require("body-parser");
@@ -5,9 +6,12 @@ var session = require('express-session');
 var products_data = require('./products.json');
 var nodemailer = require('nodemailer');
 
+// Reference from Professor Daniel Port's Lab 15
+// Reference from Assignment 3 Code Example
 app.use(myParser.urlencoded({ extended: true }));
 app.use(session({ secret: "ITM352 rocks!" }));
 
+// Reference from Lab 14
 var qs = require('qs');
 var fs = require('fs');
 const e = require('express');
@@ -54,12 +58,14 @@ app.post("/get_products_data", function (request, response) {
   response.json(products_data);
 });
 
+
 app.get("/add_to_cart", function (request, response) {
   var products_key = request.query['products_key']; // get the product key sent from the form post
   var quantities = request.query['quantities'].map(Number); // Get quantities from the form post and convert strings from form post to numbers
   request.session.cart[products_key] = quantities; // store the quantities array in the session cart object with the same products_key. 
   response.redirect('./cart.html');
 });
+
 
 app.post("/get_cart", function (request, response) {
   response.json(request.session.cart);
@@ -72,29 +78,117 @@ app.get("/confirm", function (request, response, next) {
   //send them to the login.html if they is not login
   if (typeof request.cookies['login_username'] != 'undefined') {
     response.redirect('/invoice.html?' + qs.stringify(request.query));
-  }else{
-    response.redirect('/login.html?'+ qs.stringify(request.query)); 
-}});
-
+  } else {
+    response.redirect('/login.html?' + qs.stringify(request.query));
+  }
+});
 
 
 app.get("/checkout", function (request, response) {
   // Generate HTML invoice string
+  //Reference from Professor Daniel Port's Assignment 3 Code Example
 
-  var invoice_str = `Thank you for your order!<table border><th>Quantity</th><th></th>`;
+
   var shopping_cart = request.session.cart;
-  for (product_key in products_data) {
-    for (i = 0; i < products_data[product_key].length; i++) {
-      if (typeof shopping_cart[product_key] == 'undefined') continue;
-      qty = shopping_cart[product_key][i];
-      if (qty > 0) {
-        invoice_str += `<tr><td>${qty}</td><td>${products_data[product_key][i].name}</td><tr>`;
+  var username = request.cookies['login_username'];
+
+  invoice_str = `
+  <table border="2">
+      <tbody style="border-color:navy">
+  
+        <tr>
+          <th style="text-align: center; background-color: rgb(186, 186, 236);" width="11%">quantity</th>
+          <th style="text-align: center; background-color: darksalmon;" width="43%">name</th>
+          <th style="text-align: center; background-color: rgb(240, 240, 156);" width="13%">price</th>
+          <th style="text-align: center; background-color: rgb(168, 240, 168);" width="54%">extended price</th>
+        </tr>
+  `;
+
+  //this is invoice table
+  subtotal = 0;
+  for (prodkey in shopping_cart) {
+    products = products_data[prodkey]
+    for (i = 0; i < products.length; i++) {
+      let a_quantity = shopping_cart[prodkey][i];
+      if (a_quantity > 0) {
+        // product row
+        extended_price = a_quantity * products[i].price
+        subtotal += extended_price;
+        invoice_str += `
+      <tr>
+        <td style="background-color: rgb(221, 221, 240)" align="center" width="11%">${a_quantity}</td>
+        <td style="background-color: #ecbbab" width= "43%">${products[i].name}</td>
+        <td style="background-color: rgb(238, 238, 196)" width="13%">\$${products[i].price}</td>
+        <td style="background-color: rgb(207, 245, 207)" width="54%">\$${extended_price}</td>
+      </tr>
+      `;
       }
     }
   }
-  invoice_str += '</table>';
+  // Compute tax
+  var tax_rate = 0.0471;
+  var tax = tax_rate * subtotal;
+
+  // Compute Delivery
+  if (subtotal < 50) {
+    Delivery = 5;
+  }
+  else if (subtotal <= 50) {
+    Delivery = 0;
+  }
+  else {
+    Delivery = 0.05 * subtotal; // 5% of subtotal
+  }
+
+  // Compute grand total 
+  var total = subtotal + tax + Delivery;
 
 
+
+
+
+
+
+  invoice_str += `<p style="color:coral; font-size: 25px;"> Aloha!☀ ${username}!</p>
+       
+  
+        <h1 style="font-style: italic"> Thank you for purchase !</h1>
+  
+        <tr>
+          <td colspan="4" width="100%">&nbsp;</td>
+        </tr>
+        <tr>
+          <td style="text-align: center; background-color: rgb(240, 238, 163)" colspan="3" width="67%">Sub-total</td>
+          <td width="54%" style="background-color: rgb(231, 224, 190) ;">$
+            ${subtotal}
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center; background-color: rgb(185, 170, 240)" colspan="3" width="67%"><span>Tax @
+              ${100 * tax_rate}%
+            </span></td>
+          <td width="54%" style="background-color: rgb(200, 193, 226);">$
+            ${tax.toFixed(2)}
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center; background-color: rgb(240, 172, 172)" colspan="3" width="67%">Delivery🚙💨</td>
+          <td width="54%" style="background-color: rgb(238, 196, 196) ;">$
+            ${Delivery.toFixed(2)}
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center; background-color: rgb(123, 211, 203)" colspan="3" width="67%">
+            <strong>Total</strong>
+          </td>
+          <td width="54%" style="background-color:rgb(183, 214, 212) ;"><strong>$
+             ${total.toFixed(2)}
+            </strong></td>
+        </tr>
+      </tbody>
+    </table>`;
+
+  // Reference from Assignment 3 Code Example
   // Set up mail server. Only will work on UH Network due to security restrictions
   var transporter = nodemailer.createTransport({
     host: "mail.hawaii.edu",
@@ -111,14 +205,15 @@ app.get("/checkout", function (request, response) {
     from: 'shiitsu@hawaii.edu',
     to: user_email,
     subject: 'Your boba receipt',
-    html: invoice_str
+    html: invoice_str,
+
   };
 
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
-      invoice_str += '<br>There was an error and your invoice could not be emailed :(';
+      invoice_str += '<br> There was an error and your invoice could not be emailed';
     } else {
-      invoice_str += `<br>Your invoice was mailed to ${user_email}`;
+      invoice_str += `<br> Your invoice was mailed to ${user_email}`;
     }
     response.send(invoice_str);
   });
@@ -164,11 +259,6 @@ app.post('/process_register', function (req, res, next) {
 
 
 //This is for login page
-
-
-
-
-// This processed the login form 
 app.post('/process_login', function (request, response, next) {
   let username_entered = request.body["username"];
   let password_entered = request.body["psw"];
@@ -189,6 +279,8 @@ app.get("/logout", function (request, response, next) {
   response.clearCookie("login_username");
   response.redirect(request.session.lastpage);
 });
+
+
 
 app.use(express.static('./public'));
 app.listen(8080, () => console.log(`listening on port 8080`));

@@ -19,11 +19,17 @@
         "name": "Airi Shiitsu"
     },
     "itm352": {
-        "password": "llllll",
-        "email": "shiitsu@hawaii.edu",
-        "name": "Airi Shiitsu"
+        "password": "grader",
+        "email": "dport@hawaii.edu",
+        "name": "Dan Port"
     },
     "ITM352": {
+        "password": "grader",
+        "email": "dport@hawaii.edu",
+        "name": "Dan Port"
+    },
+  
+    "itM352": {
         "password": "grader",
         "email": "dport@hawaii.edu",
         "name": "Dan Port"
