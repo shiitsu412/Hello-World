@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" style="background-color:rgb(255, 203, 211)">
+
+<head>
+    <script src="./functions.js"></script> 
+    <script>
+    var products_data;
+    loadJSON('get_products_data', function(response) {
+         // Parsing JSON string into object
+         products_data = JSON.parse(response);
+    });
+    var this_product_key = ''
+    </script>
+
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Sweet Cha Cafe</title>
+     <style>
+         h1 {
+             text-align: center;
+             background: powderblue;
+         }
+ 
+     </style>
+    </head>
+
+    <body>
+    
+        <h1 style="color:rgb(250, 143, 161); font-size: 40px;">Airi's Sweet Tea Shop</h1>
+        <h2 style= "text-align: center; color:cornflowerblue">-- You thirsty? Let's get your tasty drinks! -- <br></h2>
+        
+       
+       
+        <h3 style= "font-size:25px; text-align: center; background-color: rgb(240, 238, 163)"><script> nav_bar(this_product_key, products_data);</script></h3>
+        
+        <div class="images" style="text-align: center;">
+        <img src="Images/Milktea.png" alt="milktea" width="180px" height="auto">
+        <img src="Images/Greentea.png" alt="milktea" width="180px" height="auto">
+        <img src="Images/Chocolate.png" alt="milktea" width="180px" height="auto">
+        <img src="Images/Strawberrymilktea.png" alt="milktea" width="180px" height="auto">
+        <img src="Images/Lemonade.png" alt="milktea" width="180px" height="auto">
+    </div>
+
+    
+  
+    </body>
+    </html>

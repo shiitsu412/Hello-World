@@ -1,0 +1,148 @@
+<script src="./functions.js"></script>
+
+<script>
+  let params = (new URL(document.location)).searchParams;
+
+  // form was submitted so process the invoice
+  var shopping_cart = {};
+  loadJSON('get_cart', function (response) {
+    // Parsing JSON string into object
+    shopping_cart = JSON.parse(response);
+
+  });
+  var products_data = {};
+  loadJSON('get_products_data', function (response) {
+    // Parsing JSON string into object
+    products_data = JSON.parse(response);
+  });
+
+</script>
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+
+
+</head>
+
+<body style="background-color: #bfefdf">
+  <center style="margin-top: 80px;">
+    <table border="2">
+      <tbody style="border-color:navy">
+
+        <tr>
+          <th style="text-align: center; background-color: rgb(186, 186, 236);" width="11%">quantity</th>
+          <th style="text-align: center; background-color: darksalmon;" width="43%">name</th>
+          <th style="text-align: center; background-color: rgb(240, 240, 156);" width="13%">price</th>
+          <th style="text-align: center; background-color: rgb(168, 240, 168);" width="54%">extended price</th>
+        </tr>
+
+        <script>
+          //this is invoice table
+          subtotal = 0;
+          for (prodkey in shopping_cart) {
+            products = products_data[prodkey]
+            for (i = 0; i < products.length; i++) {
+              let a_quantity = shopping_cart[prodkey][i];
+              if (a_quantity > 0) {
+                // product row
+                extended_price = a_quantity * products[i].price
+                subtotal += extended_price;
+                document.write(`
+      <tr>
+        <td style="background-color: rgb(221, 221, 240)" align="center" width="11%">${a_quantity}</td>
+        <td style="background-color: #ecbbab" width= "43%">${products[i].name}</td>
+        <td style="background-color: rgb(238, 238, 196)" width="13%">\$${products[i].price}</td>
+        <td style="background-color: rgb(207, 245, 207)" width="54%">\$${extended_price}</td>
+      </tr>
+      `);
+              }
+            }
+          }
+          // Compute tax
+          var tax_rate = 0.0471;
+          var tax = tax_rate * subtotal;
+
+          // Compute Delivery
+          if (subtotal < 50) {
+            Delivery = 5;
+          }
+          else if (subtotal <= 50) {
+            Delivery = 0;
+          }
+          else {
+            Delivery = 0.05 * subtotal; // 5% of subtotal
+          }
+
+          // Compute grand total 
+          var total = subtotal + tax + Delivery;
+
+        </script>
+
+
+
+
+
+
+        <script>
+          document.write(`<p style="color:coral; font-size: 25px;"> Aloha!☀ ${getCookie('login_username')}!</p>`);
+        </script>
+
+        <h1 style="font-style: italic"> Thank you for purchase !</h1>
+
+
+        <h2 style="color: rgb(73, 121, 122);">Final step! Please confirm your order !</h2>
+
+        <tr>
+          <td colspan="4" width="100%">&nbsp;</td>
+        </tr>
+        <tr>
+          <td style="text-align: center; background-color: rgb(240, 238, 163)" colspan="3" width="67%">Sub-total</td>
+          <td width="54%" style="background-color: rgb(231, 224, 190) ;">$
+            <script>document.write(subtotal);</script>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center; background-color: rgb(185, 170, 240)" colspan="3" width="67%"><span>Tax @
+              <script>document.write(100 * tax_rate);</script>%
+            </span></td>
+          <td width="54%" style="background-color: rgb(200, 193, 226);">$
+            <script>document.write(tax.toFixed(2));</script>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center; background-color: rgb(240, 172, 172)" colspan="3" width="67%">Delivery🚙💨</td>
+          <td width="54%" style="background-color: rgb(238, 196, 196) ;">$
+            <script>document.write(Delivery.toFixed(2));</script>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center; background-color: rgb(123, 211, 203)" colspan="3" width="67%">
+            <strong>Total</strong>
+          </td>
+          <td width="54%" style="background-color:rgb(183, 214, 212) ;"><strong>$
+              <script>document.write(total.toFixed(2));</script>
+            </strong></td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="margin-top: 25px; margin-left: 100px; font-size: 20px;"><b>Orders under $50.00 will be charged $5 for
+        delivery fee, and
+        orders over $50 will be delivered for FREE!💕</b></div>
+
+    <form action="/checkout" method=GET>
+
+      <input type=submit value="Checkout">
+    </form>
+  </center>
+
+</body>
+
+</html>
