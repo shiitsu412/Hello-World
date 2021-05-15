@@ -13,10 +13,7 @@
         });
 
         nav_bar('', products_data);
-function remove_item(pkey,index){
-    console.log(pkey,index);
-    location.href=`./remove?pkey=${pkey}&index=${index}`;
-}
+
     </script>
 </head>
 <h2>You have in your shopping cart:</h2>
@@ -27,7 +24,7 @@ function remove_item(pkey,index){
         if(typeof shopping_cart[product_key] == 'undefined') continue;
         qty = shopping_cart[product_key][i];
         if(qty > 0) {
-          document.write(`<tr><td>${qty}</td><td>${products_data[product_key][i].name}</td><td><button class="remove" onclick="remove_item('${product_key}',${i})">Remove</button></td><tr>`);
+          document.write(`<tr><td>${qty}</td><td>${products_data[product_key][i].name}</td><tr>`);
 
         }
     }

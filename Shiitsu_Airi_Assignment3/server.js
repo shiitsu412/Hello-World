@@ -62,16 +62,9 @@ app.post("/get_products_data", function (request, response) {
 app.get("/add_to_cart", function (request, response) {
   var products_key = request.query['products_key']; // get the product key sent from the form post
   var quantities = request.query['quantities'].map(Number); // Get quantities from the form post and convert strings from form post to numbers
-  request.session.cart[products_key] = quantities; // store the quantities array in the session cart object with the same products_key. 
+    request.session.cart[products_key] = quantities; // store the quantities array in the session cart object with the same products_key. 
   response.redirect('./cart.html');
-});
-
-app.get("/remove", function (req,res){
-  var pkey = req.query['pkey'];
-  var index = req.query['index'];
-  req.session.cart[pkey[index][i]]=[pkey[index][i]];
-  res.redirect(req.session.lastpage);
-})
+}); 
 
 app.post("/get_cart", function (request, response) {
   response.json(request.session.cart);
@@ -291,3 +284,13 @@ app.get("/logout", function (request, response, next) {
 
 app.use(express.static('./public'));
 app.listen(8080, () => console.log(`listening on port 8080`));
+
+// just in case to help functions
+function isNonNegInt(q, return_errors = false) {
+  errors = []; // assume no errors at first
+  if (q == '') q = 0; // handle blank inputs as if they are 0
+  if (Number(q) != q) errors.push('<font color="red">Not a number!</font>'); // Check if string is a number value
+  else if (q < 0) errors.push('<font color="red">Negative value!</font>'); // Check if it is non-negative
+  else if (parseInt(q) != q) errors.push('<font color="red">Not an integer!</font>'); // Check that it is an integer
+  return return_errors ? errors : (errors.length == 0);
+}
